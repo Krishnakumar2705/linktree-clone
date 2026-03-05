@@ -36,10 +36,16 @@ app.use('/users', users);
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
+  // Serve static files from React build
   app.use(express.static(path.join(__dirname, "client/build")));
 
+  // Handle React routing, return all requests to React app
   app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running...");
   });
 }
 
