@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const path = require("path");
 require("dotenv").config();
 
 const app = express();
@@ -33,20 +32,10 @@ mongoose
 const users = require("./routes/user");
 app.use("/users", users);
 
-// Production setup (serve React build)
-if (process.env.NODE_ENV === "production") {
-  const buildPath = path.join(__dirname, "client", "build");
-
-  app.use(express.static(buildPath));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(buildPath, "index.html"));
-  });
-} else {
-  app.get("/", (req, res) => {
-    res.send("API is running...");
-  });
-}
+// Test route
+app.get("/", (req, res) => {
+  res.send("Backend API is running 🚀");
+});
 
 // Start server
 app.listen(port, () => {
